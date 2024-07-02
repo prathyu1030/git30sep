@@ -1,0 +1,29 @@
+// Record with a compact constructor for validation
+public record User(String username, String email) {
+    public User {
+        if (username == null || username.isBlank()) {
+            throw new IllegalArgumentException("Username cannot be blank");
+        }
+        if (email == null || !email.contains("@")) {
+            throw new IllegalArgumentException("Invalid email address");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            User validUser = new User("Alice", "alice@example.com");
+            System.out.println("Valid User: " + validUser);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            User invalidUser = new User("", "aliceexample.com");
+            System.out.println("Invalid User: " + invalidUser);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
